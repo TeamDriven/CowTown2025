@@ -5,7 +5,7 @@
 // license that can be found in the LICENSE file at
 // the root directory of this project.
 
-package frc.robot.Subsystems.drive.controllers;
+package frc.robot.subsystems.drive.controllers;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -15,7 +15,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.RobotState;
-import frc.robot.Subsystems.drive.DriveConstants;
+import frc.robot.subsystems.drive.DriveConstants;
 import frc.robot.util.GeomUtil;
 import frc.robot.util.LoggedTunableNumber;
 import java.util.function.Supplier;

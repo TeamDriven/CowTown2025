@@ -5,7 +5,7 @@
 // license that can be found in the LICENSE file at
 // the root directory of this project.
 
-package frc.robot.Subsystems.drive;
+package frc.robot.subsystems.drive;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -18,12 +18,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotState;
-import frc.robot.Subsystems.drive.DriveConstants.ModuleConfig;
-import frc.robot.Subsystems.drive.controllers.AutoAlignController;
-import frc.robot.Subsystems.drive.controllers.AutoDriveController;
-import frc.robot.Subsystems.drive.controllers.HeadingController;
-import frc.robot.Subsystems.drive.controllers.SimpleDriveController;
-import frc.robot.Subsystems.drive.controllers.TeleopDriveController;
+import frc.robot.subsystems.drive.GyroIOInputsAutoLogged;
+import frc.robot.subsystems.drive.OdometryTimestampInputsAutoLogged;
+import frc.robot.subsystems.drive.DriveConstants.ModuleConfig;
+import frc.robot.subsystems.drive.controllers.AutoAlignController;
+import frc.robot.subsystems.drive.controllers.AutoDriveController;
+import frc.robot.subsystems.drive.controllers.HeadingController;
+import frc.robot.subsystems.drive.controllers.SimpleDriveController;
+import frc.robot.subsystems.drive.controllers.TeleopDriveController;
 import frc.robot.util.EqualsUtil;
 import frc.robot.util.LoggedTunableNumber;
 import frc.robot.util.SwerveDriveWheelPositions;

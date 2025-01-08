@@ -5,7 +5,7 @@
 // license that can be found in the LICENSE file at
 // the root directory of this project.
 
-package frc.robot.Subsystems.drive;
+package frc.robot.subsystems.drive;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -14,8 +14,8 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.util.Alert;
 import frc.robot.util.LoggedTunableNumber;
 
-import static frc.robot.Subsystems.drive.DriveConstants.driveConfig;
-import static frc.robot.Subsystems.drive.DriveConstants.moduleConstants;
+import static frc.robot.subsystems.drive.DriveConstants.driveConfig;
+import static frc.robot.subsystems.drive.DriveConstants.moduleConstants;
 
 import org.littletonrobotics.junction.Logger;
 

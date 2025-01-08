@@ -5,7 +5,7 @@
 // license that can be found in the LICENSE file at
 // the root directory of this project.
 
-package frc.robot.Subsystems.drive;
+package frc.robot.subsystems.drive;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusCode;
@@ -22,9 +22,9 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
-import frc.robot.Subsystems.drive.DriveConstants.ModuleConfig;
+import frc.robot.subsystems.drive.DriveConstants.ModuleConfig;
 
-import static frc.robot.Subsystems.drive.DriveConstants.*;
+import static frc.robot.subsystems.drive.DriveConstants.*;
 
 import java.util.Queue;
 import java.util.concurrent.Executor;

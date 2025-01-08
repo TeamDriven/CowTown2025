@@ -5,7 +5,7 @@
 // license that can be found in the LICENSE file at
 // the root directory of this project.
 
-package frc.robot.Subsystems.drive;
+package frc.robot.subsystems.drive;
 
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;

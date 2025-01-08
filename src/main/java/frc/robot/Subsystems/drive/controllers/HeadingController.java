@@ -5,7 +5,7 @@
 // license that can be found in the LICENSE file at
 // the root directory of this project.
 
-package frc.robot.Subsystems.drive.controllers;
+package frc.robot.subsystems.drive.controllers;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -13,12 +13,12 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import frc.robot.Constants;
 import frc.robot.RobotState;
-import frc.robot.Subsystems.drive.DriveConstants;
+import frc.robot.subsystems.drive.DriveConstants;
 import frc.robot.util.EqualsUtil;
 import frc.robot.util.LoggedTunableNumber;
 import frc.robot.util.swerve.ModuleLimits;
 
-import static frc.robot.Subsystems.drive.DriveConstants.headingControllerConstants;
+import static frc.robot.subsystems.drive.DriveConstants.headingControllerConstants;
 
 import java.util.function.Supplier;
 import org.littletonrobotics.junction.AutoLogOutput;

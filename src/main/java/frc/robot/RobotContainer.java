@@ -7,7 +7,9 @@
 
 package frc.robot;
 
+import static frc.robot.Subsystems.*;
 import static frc.robot.Constants.*;
+import static frc.robot.Controls.*;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -42,14 +44,14 @@ public class RobotContainer {
     }
   }
 
-  // private Command driveCommand() {
-  //   return drive
-  //       .run(
-  //           () ->
-  //               drive.acceptTeleopInput(
-  //                   driveX.getAsDouble(), driveY.getAsDouble(), driveOmega.getAsDouble(), false))
-  //       .withName("Drive Teleop Input");
-  // }
+  private Command driveCommand() {
+    return drive
+        .run(
+            () ->
+                drive.acceptTeleopInput(
+                    driveX.getAsDouble(), driveY.getAsDouble(), driveOmega.getAsDouble(), false))
+        .withName("Drive Teleop Input");
+  }
 
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
@@ -58,6 +60,9 @@ public class RobotContainer {
    */
   private void configureButtonBindings(boolean demo) {
     CommandScheduler.getInstance().getActiveButtonLoop().clear();
+
+    // Drivetrain
+    drive.setDefaultCommand(driveCommand());
   }
 
   /** Updates the alerts for disconnected controllers. */
