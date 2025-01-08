@@ -10,6 +10,9 @@ import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOKrakenFOC;
+import frc.robot.subsystems.vision.Vision;
+import frc.robot.subsystems.vision.VisionIO;
+import frc.robot.subsystems.vision.VisionIOLimelight;
 
 /**
  * The Subsystems class represents the collection of subsystems used in the robot. It provides
@@ -17,7 +20,7 @@ import frc.robot.subsystems.drive.ModuleIOKrakenFOC;
  */
 public final class Subsystems {
   public static final Drive drive;
-  // public static final Vision mainVision;
+  public static final Vision visionOne;
 
   static {
     // Create subsystems
@@ -31,7 +34,7 @@ public final class Subsystems {
                   new ModuleIOKrakenFOC(DriveConstants.moduleConfigs[1]),
                   new ModuleIOKrakenFOC(DriveConstants.moduleConfigs[2]),
                   new ModuleIOKrakenFOC(DriveConstants.moduleConfigs[3]));
-          // mainVision = new Vision("MainVision", new VisionIOLimelight("limelight"), drive::getSpeeds);
+          visionOne = new Vision("VisionOne", new VisionIOLimelight("limelight"), drive::getSpeeds);
         }
         case DEVBOT -> {
           drive =
@@ -41,7 +44,7 @@ public final class Subsystems {
                   new ModuleIOKrakenFOC(DriveConstants.moduleConfigs[1]),
                   new ModuleIOKrakenFOC(DriveConstants.moduleConfigs[2]),
                   new ModuleIOKrakenFOC(DriveConstants.moduleConfigs[3]));
-          // mainVision = new Vision("MainVision", new VisionIOLimelight("limelight"), drive::getSpeeds);
+          visionOne = new Vision("VisionOne", new VisionIOLimelight("limelight"), drive::getSpeeds);
         }
         case SIMBOT -> {
           throw new IllegalStateException("SIMBOT is not currently implemented on this robot");
@@ -58,7 +61,7 @@ public final class Subsystems {
               new ModuleIO() {},
               new ModuleIO() {},
               new ModuleIO() {});
-      // mainVision = new Vision("MainVision", new VisionIO() {}, drive::getSpeeds);
+      visionOne = new Vision("VisionOne", new VisionIO() {}, drive::getSpeeds);
     }
   }
 }
