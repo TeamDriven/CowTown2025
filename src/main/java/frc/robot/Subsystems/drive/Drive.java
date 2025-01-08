@@ -18,8 +18,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotState;
-import frc.robot.subsystems.drive.GyroIOInputsAutoLogged;
-import frc.robot.subsystems.drive.OdometryTimestampInputsAutoLogged;
 import frc.robot.subsystems.drive.DriveConstants.ModuleConfig;
 import frc.robot.subsystems.drive.controllers.AutoAlignController;
 import frc.robot.subsystems.drive.controllers.AutoDriveController;
@@ -330,38 +328,6 @@ public class Drive extends SubsystemBase {
     Logger.recordOutput("Drive/SetpointSpeeds", currentSetpoint.chassisSpeeds());
     Logger.recordOutput("Drive/DriveMode", currentDriveMode);
   }
-
-  /** Configure the path planner for the swerve drivetrain */
-  // private void configurePathPlanner() {
-  //   AutoBuilder.configureHolonomic(
-  //       () -> RobotState.getInstance().getEstimatedPose(), // Supplier of current robot pose
-  //       (pose2D) ->
-  //           RobotState.getInstance().resetPose(pose2D), // Consumer for seeding pose against auto
-  //       () -> autoDriveController.update(), // Supplier of ChassisSpeeds for the robot
-  //       (speeds) -> acceptAutoInput(speeds), // Consumer of ChassisSpeeds to drive the robot
-  //       getPathFollowerConfig(),
-  //       () -> false,
-  //       this); // Subsystem for requirements
-  // }
-
-  // public HolonomicPathFollowerConfig getPathFollowerConfig() {
-  //   return new HolonomicPathFollowerConfig(
-  //       new PIDConstants(2, 0, 0),
-  //       new PIDConstants(2, 0, 0),
-  //       DriveConstants.moduleLimitsFree.maxDriveVelocity(),
-  //       DriveConstants.driveConfig.driveBaseRadius(),
-  //       new ReplanningConfig());
-  // }
-
-  /**
-   * Get an auto based off of the name
-   *
-   * @param pathName the name of the path
-   * @return a command that will run the path
-   */
-  // public Command getAutoPath(String pathName) {
-  //   return new PathPlannerAuto(pathName);
-  // }
 
   /** Pass controller input into teleopDriveController in field relative input */
   public void acceptTeleopInput(

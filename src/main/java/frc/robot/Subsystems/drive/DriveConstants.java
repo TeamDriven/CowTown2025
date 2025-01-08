@@ -26,25 +26,25 @@ public final class DriveConstants {
   public static final DriveConfig driveConfig =
       switch (Constants.getRobot()) {
         case SIMBOT, COMPBOT -> new DriveConfig(
-            Units.inchesToMeters(1.9368816932422894), // Get from Wheel Radius Characterization
-            Units.inchesToMeters(18.625), // Track width X
-            Units.inchesToMeters(18.625), // Track width Y
-            Units.inchesToMeters(30), // Bumper width X
-            Units.inchesToMeters(30.75), // Bumper width Y
-            Units.feetToMeters(15.0), // Max Linear Velocity
-            Units.feetToMeters(75.0), // Max Linear Acceleration
-            12.0, // Max Angular Velocity
-            6.0); // Max Angular Acceleration
+            Units.inchesToMeters(0), // Get from Wheel Radius Characterization
+            Units.inchesToMeters(0), // Track width X
+            Units.inchesToMeters(0), // Track width Y
+            Units.inchesToMeters(0), // Bumper width X
+            Units.inchesToMeters(0), // Bumper width Y
+            Units.feetToMeters(0), // Max Linear Velocity
+            Units.feetToMeters(0), // Max Linear Acceleration
+            0, // Max Angular Velocity
+            0); // Max Angular Acceleration
         case DEVBOT -> new DriveConfig(
-            Units.inchesToMeters(0),
-            Units.inchesToMeters(0),
-            Units.inchesToMeters(0),
-            Units.inchesToMeters(0),
-            Units.inchesToMeters(0),
-            Units.feetToMeters(0),
-            Units.feetToMeters(0),
-            0,
-            0);
+          Units.inchesToMeters(1.9368816932422894), // Get from Wheel Radius Characterization
+          Units.inchesToMeters(18.625), // Track width X
+          Units.inchesToMeters(18.625), // Track width Y
+          Units.inchesToMeters(30), // Bumper width X
+          Units.inchesToMeters(30.75), // Bumper width Y
+          Units.feetToMeters(15.0), // Max Linear Velocity
+          Units.feetToMeters(75.0), // Max Linear Acceleration
+          12.0, // Max Angular Velocity
+          6.0); // Max Angular Acceleration
       };
   public static final Translation2d[] moduleTranslations =
       new Translation2d[] {
