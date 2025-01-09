@@ -40,6 +40,9 @@ import org.littletonrobotics.junction.AutoLog;
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
 
+import choreo.auto.AutoFactory;
+import choreo.trajectory.SwerveSample;
+
 public class Drive extends SubsystemBase {
   private static final LoggedTunableNumber coastWaitTime =
       new LoggedTunableNumber("Drive/CoastWaitTimeSeconds", 0.5);
@@ -124,6 +127,8 @@ public class Drive extends SubsystemBase {
   private AutoAlignController autoAlignController = null;
   private HeadingController headingController = null;
 
+  public final AutoFactory autoFactory;
+
   public Drive(GyroIO gyroIO, ModuleIO fl, ModuleIO fr, ModuleIO bl, ModuleIO br) {
     this.gyroIO = gyroIO;
     modules[0] = new Module(fl, 0);
@@ -139,7 +144,12 @@ public class Drive extends SubsystemBase {
     autoDriveController = new AutoDriveController();
     simpleDriveController = new SimpleDriveController();
 
-    // configurePathPlanner();
+    autoFactory = new AutoFactory(
+                        RobotState.getInstance()::getEstimatedPose, 
+                        RobotState.getInstance()::resetPose, 
+                        this::acceptAutoInput, 
+                        true, 
+                        this);
   }
 
   public void periodic() {
@@ -342,10 +352,10 @@ public class Drive extends SubsystemBase {
   }
 
   /** Pass ChassisSpeeds input into autoDriveController in field relative input */
-  public void acceptAutoInput(ChassisSpeeds chassisSpeeds) {
+  public void acceptAutoInput(SwerveSample swerveSample) {
     if (DriverStation.isAutonomousEnabled()) {
       currentDriveMode = DriveMode.AUTO;
-      autoDriveController.acceptDriveInput(chassisSpeeds);
+      autoDriveController.acceptDriveInput(swerveSample);
     }
   }
 
@@ -356,10 +366,6 @@ public class Drive extends SubsystemBase {
 
   public ChassisSpeeds getSimpleSpeeds() {
     return simpleDriveController.update();
-  }
-
-  public void clearAutoInput() {
-    autoDriveController.acceptDriveInput(new ChassisSpeeds());
   }
 
   /** Sets the goal pose for the robot to drive to */

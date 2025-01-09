@@ -7,23 +7,27 @@
 
 package frc.robot.subsystems.drive.controllers;
 
+import choreo.trajectory.SwerveSample;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import frc.robot.RobotState;
 
 /** Drive controller for outputting {@link ChassisSpeeds} from driver joysticks. */
 public class AutoDriveController {
+  private final PIDController xController = new PIDController(10.0, 0.0, 0.0);
+  private final PIDController yController = new PIDController(10.0, 0.0, 0.0);
+  private final PIDController headingController = new PIDController(7.5, 0.0, 0.0);
 
-  private ChassisSpeeds chassisSpeeds = new ChassisSpeeds();
+  private SwerveSample sample;
 
-  /**
-   * Accepts new drive input from joysticks.
-   *
-   * @param x Desired x velocity scalar, -1..1
-   * @param y Desired y velocity scalar, -1..1
-   * @param omega Desired omega velocity scalar, -1..1
-   * @param robotRelative Robot relative drive
-   */
-  public void acceptDriveInput(ChassisSpeeds chassisSpeeds) {
-    this.chassisSpeeds = chassisSpeeds;
+  public AutoDriveController() {
+    headingController.enableContinuousInput(-Math.PI, Math.PI);
+  }
+
+  public void acceptDriveInput(SwerveSample swerveSample) {
+    sample = swerveSample;
   }
 
   /**
@@ -32,6 +36,15 @@ public class AutoDriveController {
    * @return {@link ChassisSpeeds} with driver's requested speeds.
    */
   public ChassisSpeeds update() {
-    return chassisSpeeds;
+    Pose2d curPose = RobotState.getInstance().getEstimatedPose();
+    Rotation2d curRot = RobotState.getInstance().getOdometryPose().getRotation();
+    
+    ChassisSpeeds fieldRelativeSpeeds = new ChassisSpeeds(
+      sample.vx + xController.calculate(curPose.getX(), sample.x),
+      sample.vy + yController.calculate(curPose.getY(), sample.y),
+      sample.omega + headingController.calculate(curRot.getRadians(), sample.heading)
+    );
+
+    return ChassisSpeeds.fromFieldRelativeSpeeds(fieldRelativeSpeeds, curRot);
   }
 }
