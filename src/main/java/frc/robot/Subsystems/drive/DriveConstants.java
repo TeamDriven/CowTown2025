@@ -102,7 +102,7 @@ public final class DriveConstants {
             0.0,
             4000.0,
             50.0,
-            5.357142857142857, // L3 16 tooth
+            Mk4iReductions.L3_16T.reduction, // L3 16 tooth
             Mk4iReductions.TURN.reduction);
         case DEVBOT -> new ModuleConstants(
             0.014,
@@ -112,7 +112,7 @@ public final class DriveConstants {
             0.0,
             10.0,
             0.0,
-            Mk4iReductions.L3.reduction,
+            Mk4iReductions.L3_16T.reduction,
             Mk4iReductions.TURN.reduction);
         case SIMBOT -> new ModuleConstants(
             0.014,
@@ -122,7 +122,7 @@ public final class DriveConstants {
             0.0,
             10.0,
             0.0,
-            Mk4iReductions.L3.reduction,
+            Mk4iReductions.L3_16T.reduction,
             Mk4iReductions.TURN.reduction);
       };
 
@@ -195,7 +195,8 @@ public final class DriveConstants {
   private enum Mk4iReductions {
     L2((50.0 / 14.0) * (17.0 / 27.0) * (45.0 / 15.0)),
     L3((50.0 / 14.0) * (16.0 / 28.0) * (45.0 / 15.0)),
-    TURN((150.0 / 7.0));
+    TURN((150.0 / 7.0)),
+    L3_16T(5.357142857142857);
 
     final double reduction;
 
