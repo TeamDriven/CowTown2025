@@ -105,15 +105,15 @@ public final class DriveConstants {
             Mk4iReductions.L3_16T.reduction, // L3 16 tooth
             Mk4iReductions.TURN.reduction);
         case DEVBOT -> new ModuleConstants(
-            0.014,
-            0.134,
-            0.0,
-            0.1,
-            0.0,
-            10.0,
-            0.0,
-            Mk4iReductions.L3_16T.reduction,
-            Mk4iReductions.TURN.reduction);
+          3.51413,
+          0.05551,
+          1.0 / DCMotor.getKrakenX60Foc(1).KtNMPerAmp,
+          35.0,
+          0.0,
+          2000.0,
+          50.0,
+          Mk4iReductions.L3_16T.reduction,
+          Mk4iReductions.TURN.reduction);
         case SIMBOT -> new ModuleConstants(
             0.014,
             0.134,

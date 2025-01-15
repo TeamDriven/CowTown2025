@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.autos.TestAuto;
 import frc.robot.util.*;
 import frc.robot.util.Alert.AlertType;
 
@@ -124,8 +125,7 @@ public class RobotContainer {
     //     .andThen(new SlippageCalculator(drive))
     //     .withName("Slippage Calculator");
 
-    return null;
-    // return new RepeatCommand(drive.getAutoPath("TestAuto"));
+    return new TestAuto().getAuto().cmd();
     // return autoChooser.getSelected();
   }
 }
