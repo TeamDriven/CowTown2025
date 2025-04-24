@@ -15,53 +15,65 @@ import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOLimelight;
 
 /**
- * The Subsystems class represents the collection of subsystems used in the robot. It provides
+ * The Subsystems class represents the collection of subsystems used in the
+ * robot. It provides
  * static references to various subsystem objects that are used in the robot.
  */
 public final class Subsystems {
-  public static final Drive drive;
-  public static final Vision visionOne;
+    public static final Drive drive;
 
-  static {
-    // Create subsystems
-    if (Constants.getMode() != Constants.Mode.REPLAY) {
-      switch (Constants.getRobot()) {
-        case COMPBOT -> {
-          drive =
-              new Drive(
-                  new GyroIOPigeon2(true),
-                  new ModuleIOKrakenFOC(DriveConstants.moduleConfigs[0]),
-                  new ModuleIOKrakenFOC(DriveConstants.moduleConfigs[1]),
-                  new ModuleIOKrakenFOC(DriveConstants.moduleConfigs[2]),
-                  new ModuleIOKrakenFOC(DriveConstants.moduleConfigs[3]));
-          visionOne = new Vision("VisionOne", new VisionIOLimelight("limelight"), drive::getSpeeds);
+    public static final Vision visionOne;
+
+    // public static final LED leds;
+
+    static {
+        // Create subsystems
+        if (Constants.getMode() != Constants.Mode.REPLAY) {
+            switch (Constants.getRobot()) {
+                case COMPBOT -> {
+                    drive = new Drive(
+                            new GyroIOPigeon2(true, "DriveBus"),
+                            new ModuleIOKrakenFOC(DriveConstants.moduleConfigs[0], "DriveBus"),
+                            new ModuleIOKrakenFOC(DriveConstants.moduleConfigs[1], "DriveBus"),
+                            new ModuleIOKrakenFOC(DriveConstants.moduleConfigs[2], "DriveBus"),
+                            new ModuleIOKrakenFOC(DriveConstants.moduleConfigs[3], "DriveBus"));
+
+                    visionOne = new Vision("Vision One", 0, new VisionIOLimelight("limelight"),
+                            drive::getSpeeds);
+                }
+                case DEVBOT -> {
+                    drive = new Drive(
+                            new GyroIOPigeon2(true, "*"),
+                            new ModuleIOKrakenFOC(DriveConstants.moduleConfigs[0], "*"),
+                            new ModuleIOKrakenFOC(DriveConstants.moduleConfigs[1], "*"),
+                            new ModuleIOKrakenFOC(DriveConstants.moduleConfigs[2], "*"),
+                            new ModuleIOKrakenFOC(DriveConstants.moduleConfigs[3], "*"));
+
+                    visionOne = new Vision("Vision One", 0, new VisionIOLimelight("limelight"),
+                            drive::getSpeeds);
+                }
+                case SIMBOT -> {
+                    throw new IllegalStateException("SIMBOT is not currently implemented on this robot");
+                }
+                default -> {
+                    throw new IllegalStateException("Robot type not selected");
+                }
+            }
+        } else {
+            drive = new Drive(
+                    new GyroIO() {
+                    },
+                    new ModuleIO() {
+                    },
+                    new ModuleIO() {
+                    },
+                    new ModuleIO() {
+                    },
+                    new ModuleIO() {
+                    });
+
+            visionOne = new Vision("Vision One", 0, new VisionIO() {
+            }, drive::getSpeeds);
         }
-        case DEVBOT -> {
-          drive =
-              new Drive(
-                  new GyroIOPigeon2(false),
-                  new ModuleIOKrakenFOC(DriveConstants.moduleConfigs[0]),
-                  new ModuleIOKrakenFOC(DriveConstants.moduleConfigs[1]),
-                  new ModuleIOKrakenFOC(DriveConstants.moduleConfigs[2]),
-                  new ModuleIOKrakenFOC(DriveConstants.moduleConfigs[3]));
-          visionOne = new Vision("VisionOne", new VisionIOLimelight("limelight"), drive::getSpeeds);
-        }
-        case SIMBOT -> {
-          throw new IllegalStateException("SIMBOT is not currently implemented on this robot");
-        }
-        default -> {
-          throw new IllegalStateException("Robot type not selected");
-        }
-      }
-    } else {
-      drive =
-          new Drive(
-              new GyroIO() {},
-              new ModuleIO() {},
-              new ModuleIO() {},
-              new ModuleIO() {},
-              new ModuleIO() {});
-      visionOne = new Vision("VisionOne", new VisionIO() {}, drive::getSpeeds);
     }
-  }
 }

@@ -8,7 +8,7 @@ public interface VisionIO {
 
     @AutoLog
     class VisionIOInputs {
-        public Pose2d pose = null;
+        public Pose2d pose = new Pose2d();
         public double timestampSeconds = 0;
         public double latency = 0;
         public double tagCount = 0;
@@ -25,11 +25,6 @@ public interface VisionIO {
     default void setRobotOrientation(double yaw) {}
 
     default void setPipeline(int mode) {}
-
-    /**
-     * @param mode 0 for active, 1 for inactive
-     */
-    default void setCameraMode(int mode) {}
 
     /**
      * @param mode 0 for default, 1 for off, 2 for blink, 3 for on

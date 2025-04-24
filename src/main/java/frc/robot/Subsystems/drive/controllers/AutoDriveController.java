@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems.drive.controllers;
 
+import org.littletonrobotics.junction.Logger;
+
 import choreo.trajectory.SwerveSample;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -16,9 +18,9 @@ import frc.robot.RobotState;
 
 /** Drive controller for outputting {@link ChassisSpeeds} from driver joysticks. */
 public class AutoDriveController {
-  private final PIDController xController = new PIDController(5.0, 0.0, 0.0);
-  private final PIDController yController = new PIDController(5.0, 0.0, 0.0);
-  private final PIDController headingController = new PIDController(2.75, 0.0, 0.0);
+  private final PIDController xController = new PIDController(1.5, 0.0, 0);
+  private final PIDController yController = new PIDController(1.5, 0.0, 0);
+  private final PIDController headingController = new PIDController(1.0, 0.0, 0);
 
   private SwerveSample sample;
 
@@ -30,6 +32,13 @@ public class AutoDriveController {
     sample = swerveSample;
   }
 
+  private void logSample() {
+    Logger.recordOutput("AutoDrive/pose", new Pose2d(sample.x, sample.y, new Rotation2d(sample.heading)));
+    Logger.recordOutput("AutoDrive/vel", new ChassisSpeeds(sample.vx, sample.vy, sample.omega));
+    Logger.recordOutput("AutoDrive/accel", new ChassisSpeeds(sample.ax, sample.ay, sample.alpha));
+    Logger.recordOutput("AutoDrive/timestamp", sample.t);
+  }
+
   /**
    * Updates the controller with the currently stored state.
    *
@@ -38,12 +47,16 @@ public class AutoDriveController {
   public ChassisSpeeds update() {
     Pose2d curPose = RobotState.getInstance().getEstimatedPose();
     Rotation2d curRot = RobotState.getInstance().getOdometryPose().getRotation();
+
+    logSample();
     
     ChassisSpeeds fieldRelativeSpeeds = new ChassisSpeeds(
       sample.vx + xController.calculate(curPose.getX(), sample.x),
       sample.vy + yController.calculate(curPose.getY(), sample.y),
       sample.omega + headingController.calculate(curRot.getRadians(), sample.heading)
     );
+
+    Logger.recordOutput("AutoDrive/FieldRelativeSpeeds", fieldRelativeSpeeds);
 
     return ChassisSpeeds.fromFieldRelativeSpeeds(fieldRelativeSpeeds, curRot);
   }
