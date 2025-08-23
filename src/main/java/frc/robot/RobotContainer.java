@@ -7,38 +7,36 @@
 
 package frc.robot;
 
-import static frc.robot.Subsystems.*;
-
-import java.nio.charset.StandardCharsets;
 import java.util.function.BooleanSupplier;
 
-import static frc.robot.Constants.*;
-import static frc.robot.Controls.*;
-
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Controls.ManualMode;
+import static frc.robot.Constants.driver;
+import frc.robot.Controls.StandardMode;
+import static frc.robot.Controls.driveOmega;
+import static frc.robot.Controls.driveX;
+import static frc.robot.Controls.driveY;
+import static frc.robot.Controls.manualMode;
+import static frc.robot.Controls.noLimelightMode;
+import static frc.robot.Controls.resetPose;
 import frc.robot.RobotState.actions;
-import frc.robot.commands.FeedForwardCharacterization;
-import frc.robot.commands.WheelRadiusCharacterization;
-import frc.robot.subsystems.drive.Drive;
-import frc.robot.util.*;
+import static frc.robot.Subsystems.drive;
+import frc.robot.util.Alert;
 import frc.robot.util.Alert.AlertType;
+import frc.robot.util.AllianceFlipUtil;
 
 public class RobotContainer {
     private final RobotState robotState = RobotState.getInstance();
@@ -76,6 +74,7 @@ public class RobotContainer {
         setupAutos();
         universalControls();
         configureStandardMode();
+        configureNoLimelightMode();
         configureManualMode();
 
         // Alerts for constants
@@ -85,6 +84,7 @@ public class RobotContainer {
     }
 
     private void setupAutos() {
+
         SmartDashboard.putData(autoChooser);
     }
 
@@ -127,6 +127,7 @@ public class RobotContainer {
                 .onTrue(Commands.runOnce(() -> driver.getHID().setRumble(RumbleType.kBothRumble, 0.5)))
                 .onFalse(Commands.runOnce(() -> driver.getHID().setRumble(RumbleType.kBothRumble, 0)));
 
+        noLimelightMode.onTrue(Commands.runOnce(() -> RobotState.getInstance().setNoLimelightMode()));
         manualMode.onTrue(Commands.runOnce(() -> RobotState.getInstance().setManualMode()));
     }
 
@@ -138,11 +139,25 @@ public class RobotContainer {
      * XboxController}), and then passing it to a {@link JoystickButton}.
      */
     private void configureStandardMode() {
+        // Drivetrain
+        new Trigger(isDesiredAction(actions.NONE))
+                .and(RobotState.getInstance()::isStandardMode)
+                .onTrue(Commands.parallel(
+                        Commands.runOnce(() -> drive.clearAutoAlignGoal()),
+                        Commands.runOnce(() -> drive.clearHeadingGoal())));
 
+        StandardMode.cancelAction.onTrue(setDesiredAction(actions.NONE));
+    }
+
+    private void configureNoLimelightMode() {
+        // Drivetrain
+        new Trigger(isDesiredAction(actions.NONE))
+                .and(RobotState.getInstance()::isNoLimelightMode)
+                .onTrue(Commands.parallel(
+                        Commands.runOnce(() -> drive.clearHeadingGoal())));
     }
 
     private void configureManualMode() {
-      
     }
 
     /** Updates the alerts for disconnected controllers. */

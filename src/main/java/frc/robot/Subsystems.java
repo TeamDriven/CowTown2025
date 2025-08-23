@@ -10,6 +10,7 @@ import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOKrakenFOC;
+import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOLimelight;
@@ -22,9 +23,9 @@ import frc.robot.subsystems.vision.VisionIOLimelight;
 public final class Subsystems {
     public static final Drive drive;
 
-    public static final Vision visionOne;
-
-    // public static final LED leds;
+    public static final Vision bottomVision;
+    public static final Vision backVision;
+    public static final Vision topVision;
 
     static {
         // Create subsystems
@@ -38,22 +39,47 @@ public final class Subsystems {
                             new ModuleIOKrakenFOC(DriveConstants.moduleConfigs[2], "DriveBus"),
                             new ModuleIOKrakenFOC(DriveConstants.moduleConfigs[3], "DriveBus"));
 
-                    visionOne = new Vision("Vision One", 0, new VisionIOLimelight("limelight"),
+                    bottomVision = new Vision("Bottom Vision", new VisionIOLimelight("limelight-bottom"),
                             drive::getSpeeds);
+                    backVision = new Vision("Back Vision", new VisionIOLimelight("limelight-back"), drive::getSpeeds);
+                    topVision = new Vision("Top Vision", new VisionIOLimelight("limelight-top"), drive::getSpeeds);
                 }
                 case DEVBOT -> {
-                    drive = new Drive(
-                            new GyroIOPigeon2(true, "*"),
-                            new ModuleIOKrakenFOC(DriveConstants.moduleConfigs[0], "*"),
-                            new ModuleIOKrakenFOC(DriveConstants.moduleConfigs[1], "*"),
-                            new ModuleIOKrakenFOC(DriveConstants.moduleConfigs[2], "*"),
-                            new ModuleIOKrakenFOC(DriveConstants.moduleConfigs[3], "*"));
 
-                    visionOne = new Vision("Vision One", 0, new VisionIOLimelight("limelight"),
+                    drive = new Drive(
+                            new GyroIO() {
+                            },
+                            new ModuleIO() {
+                            },
+                            new ModuleIO() {
+                            },
+                            new ModuleIO() {
+                            },
+                            new ModuleIO() {
+                            });
+
+                    bottomVision = new Vision("Bottom Vision", new VisionIOLimelight("limelight-bottom"),
                             drive::getSpeeds);
+                    backVision = new Vision("Back Vision", new VisionIOLimelight("limelight-back"), drive::getSpeeds);
+                    topVision = new Vision("Top Vision", new VisionIOLimelight("limelight-top"), drive::getSpeeds);
+
+                    // leds = new LED(new LEDIOCANdle(60));
                 }
                 case SIMBOT -> {
-                    throw new IllegalStateException("SIMBOT is not currently implemented on this robot");
+                    drive = new Drive(
+                        new GyroIO() {},
+                        new ModuleIOSim(DriveConstants.moduleConfigs[0]),
+                        new ModuleIOSim(DriveConstants.moduleConfigs[1]),
+                        new ModuleIOSim(DriveConstants.moduleConfigs[2]),
+                        new ModuleIOSim(DriveConstants.moduleConfigs[3]));
+
+                    // bottomVision = new Vision("Bottom Vision", new VisionIO() {}, drive::getSpeeds);
+                    // backVision = new Vision("Back Vision", new VisionIO() {}, drive::getSpeeds);
+                    // topVision = new Vision("Top Vision", new VisionIO() {}, drive::getSpeeds);
+                    // rightVision = new Vision("Right Vision", new VisionIO() {},
+                    // drive::getSpeeds);
+
+                    throw new IllegalStateException("SIMBOT is not currently completely implemented on this robot");
                 }
                 default -> {
                     throw new IllegalStateException("Robot type not selected");
@@ -72,7 +98,11 @@ public final class Subsystems {
                     new ModuleIO() {
                     });
 
-            visionOne = new Vision("Vision One", 0, new VisionIO() {
+            bottomVision = new Vision("Bottom Vision", new VisionIO() {
+            }, drive::getSpeeds);
+            backVision = new Vision("Back Vision", new VisionIO() {
+            }, drive::getSpeeds);
+            topVision = new Vision("Top Vision", new VisionIO() {
             }, drive::getSpeeds);
         }
     }

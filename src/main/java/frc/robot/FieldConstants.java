@@ -7,23 +7,7 @@
 
 package frc.robot;
 
-import static frc.robot.subsystems.drive.DriveConstants.driveConfig;
-
-import java.util.Arrays;
-import java.util.List;
-
-import org.littletonrobotics.junction.Logger;
-
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
-import frc.robot.util.zoning.CircleZone;
-import frc.robot.util.zoning.PolygonZone;
 
 /**
  * Contains various field dimensions and useful reference points. Dimensions are

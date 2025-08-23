@@ -7,11 +7,28 @@
 
 package frc.robot.subsystems.drive;
 
+
+import java.util.Arrays;
+import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.Supplier;
+import java.util.stream.IntStream;
+
+import org.littletonrobotics.junction.AutoLog;
+import org.littletonrobotics.junction.AutoLogOutput;
+import org.littletonrobotics.junction.Logger;
+
+import choreo.auto.AutoFactory;
+import choreo.trajectory.SwerveSample;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Twist2d;
-import edu.wpi.first.math.kinematics.*;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -20,29 +37,17 @@ import frc.robot.Constants;
 import frc.robot.RobotState;
 import frc.robot.subsystems.drive.DriveConstants.ModuleConfig;
 import frc.robot.subsystems.drive.controllers.AutoAlignController;
+import frc.robot.subsystems.drive.controllers.AutoAlignController.allignmentMode;
 import frc.robot.subsystems.drive.controllers.AutoDriveController;
 import frc.robot.subsystems.drive.controllers.HeadingController;
 import frc.robot.subsystems.drive.controllers.SimpleDriveController;
 import frc.robot.subsystems.drive.controllers.TeleopDriveController;
-import frc.robot.subsystems.drive.controllers.AutoAlignController.allignmentMode;
 import frc.robot.util.EqualsUtil;
 import frc.robot.util.LoggedTunableNumber;
 import frc.robot.util.SwerveDriveWheelPositions;
 import frc.robot.util.swerve.ModuleLimits;
 import frc.robot.util.swerve.SwerveSetpoint;
 import frc.robot.util.swerve.SwerveSetpointGenerator;
-import java.util.*;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.function.Supplier;
-import java.util.stream.IntStream;
-import org.littletonrobotics.junction.AutoLog;
-import org.littletonrobotics.junction.AutoLogOutput;
-import org.littletonrobotics.junction.Logger;
-
-import choreo.auto.AutoFactory;
-import choreo.trajectory.SwerveSample;
 
 public class Drive extends SubsystemBase {
     private static final LoggedTunableNumber coastWaitTime = new LoggedTunableNumber("Drive/CoastWaitTimeSeconds", 0.5);
@@ -53,7 +58,7 @@ public class Drive extends SubsystemBase {
         /** Driving with input from driver joysticks. (Default) */
         TELEOP,
 
-        /** Driving with chassis speeds from pathplanner in auto */
+        /** Driving with chassis speeds from Choreo in auto */
         AUTO,
 
         /** Driving to a location on the field automatically. */
