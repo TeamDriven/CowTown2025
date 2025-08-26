@@ -7,7 +7,6 @@
 
 package frc.robot.subsystems.drive;
 
-
 import java.util.Arrays;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -37,11 +36,11 @@ import frc.robot.Constants;
 import frc.robot.RobotState;
 import frc.robot.subsystems.drive.DriveConstants.ModuleConfig;
 import frc.robot.subsystems.drive.controllers.AutoAlignController;
-import frc.robot.subsystems.drive.controllers.AutoAlignController.allignmentMode;
 import frc.robot.subsystems.drive.controllers.AutoDriveController;
 import frc.robot.subsystems.drive.controllers.HeadingController;
 import frc.robot.subsystems.drive.controllers.SimpleDriveController;
 import frc.robot.subsystems.drive.controllers.TeleopDriveController;
+import frc.robot.subsystems.drive.controllers.AutoAlignController.allignmentMode;
 import frc.robot.util.EqualsUtil;
 import frc.robot.util.LoggedTunableNumber;
 import frc.robot.util.SwerveDriveWheelPositions;

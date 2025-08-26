@@ -9,7 +9,7 @@
       "name": "Constants",
       "request": "launch",
       "mainClass": "frc.robot.Constants",
-      "projectName": "SwerveDriveBase"
+      "projectName": "CowTown2025"
     },
     {
       "type": "wpilib",
