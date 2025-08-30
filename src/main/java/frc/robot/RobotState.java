@@ -186,8 +186,20 @@ public class RobotState {
     return odometryPose;
   }
 
+  private boolean hasCoral = false;
+
+  @AutoLogOutput(key = "RobotState/hasCoral")
+  public boolean hasCoral() {
+    return hasCoral;
+  }
+
+  public void setGamePiece(boolean sensorTripped) {
+    hasCoral = sensorTripped;
+  }
+
   public static enum actions {
-    NONE
+    NONE,
+    DFGSDFGSDFGSDF
   }
 
   private actions desiredAction = actions.NONE;

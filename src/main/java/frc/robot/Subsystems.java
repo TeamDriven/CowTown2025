@@ -11,6 +11,17 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOKrakenFOC;
 import frc.robot.subsystems.drive.ModuleIOSim;
+import frc.robot.subsystems.intake.Intake;
+import frc.robot.subsystems.intake.IntakeIO;
+import frc.robot.subsystems.intake.IntakeIOKraken;
+import frc.robot.subsystems.intake.IntakeIOSim;
+import frc.robot.subsystems.photonVision.Photon;
+import frc.robot.subsystems.photonVision.PhotonIO;
+import frc.robot.subsystems.photonVision.PhotonIOCamera;
+import frc.robot.subsystems.pivot.Pivot;
+import frc.robot.subsystems.pivot.PivotIO;
+import frc.robot.subsystems.pivot.PivotIOKraken;
+import frc.robot.subsystems.pivot.PivotIOSim;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOLimelight;
@@ -23,9 +34,14 @@ import frc.robot.subsystems.vision.VisionIOLimelight;
 public final class Subsystems {
     public static final Drive drive;
 
-    public static final Vision bottomVision;
+    public static final Vision frontVision;
     public static final Vision backVision;
-    public static final Vision topVision;
+
+    public static final Photon camera;
+
+    public static final Intake intake;
+
+    public static final Pivot pivot;
 
     static {
         // Create subsystems
@@ -39,10 +55,15 @@ public final class Subsystems {
                             new ModuleIOKrakenFOC(DriveConstants.moduleConfigs[2], "DriveBus"),
                             new ModuleIOKrakenFOC(DriveConstants.moduleConfigs[3], "DriveBus"));
 
-                    bottomVision = new Vision("Bottom Vision", new VisionIOLimelight("limelight-bottom"),
+                    frontVision = new Vision("Bottom Vision", new VisionIOLimelight("limelight-bottom"),
                             drive::getSpeeds);
                     backVision = new Vision("Back Vision", new VisionIOLimelight("limelight-back"), drive::getSpeeds);
-                    topVision = new Vision("Top Vision", new VisionIOLimelight("limelight-top"), drive::getSpeeds);
+
+                    camera = new Photon(new PhotonIOCamera("front"));
+
+                    intake = new Intake(new IntakeIOKraken(13, 14, 1));
+
+                    pivot = new Pivot(new PivotIOKraken(15));
                 }
                 case DEVBOT -> {
 
@@ -58,28 +79,39 @@ public final class Subsystems {
                             new ModuleIO() {
                             });
 
-                    bottomVision = new Vision("Bottom Vision", new VisionIOLimelight("limelight-bottom"),
+                    frontVision = new Vision("Bottom Vision", new VisionIOLimelight("limelight-bottom"),
                             drive::getSpeeds);
                     backVision = new Vision("Back Vision", new VisionIOLimelight("limelight-back"), drive::getSpeeds);
-                    topVision = new Vision("Top Vision", new VisionIOLimelight("limelight-top"), drive::getSpeeds);
 
-                    // leds = new LED(new LEDIOCANdle(60));
+                    camera = new Photon(new PhotonIOCamera("front"));
+
+                    intake = new Intake(new IntakeIOKraken(13, 14, 1));
+
+                    pivot = new Pivot(new PivotIOKraken(15));
                 }
                 case SIMBOT -> {
                     drive = new Drive(
-                        new GyroIO() {},
-                        new ModuleIOSim(DriveConstants.moduleConfigs[0]),
-                        new ModuleIOSim(DriveConstants.moduleConfigs[1]),
-                        new ModuleIOSim(DriveConstants.moduleConfigs[2]),
-                        new ModuleIOSim(DriveConstants.moduleConfigs[3]));
+                            new GyroIO() {
+                            },
+                            new ModuleIOSim(DriveConstants.moduleConfigs[0]),
+                            new ModuleIOSim(DriveConstants.moduleConfigs[1]),
+                            new ModuleIOSim(DriveConstants.moduleConfigs[2]),
+                            new ModuleIOSim(DriveConstants.moduleConfigs[3]));
 
-                    // bottomVision = new Vision("Bottom Vision", new VisionIO() {}, drive::getSpeeds);
-                    // backVision = new Vision("Back Vision", new VisionIO() {}, drive::getSpeeds);
-                    // topVision = new Vision("Top Vision", new VisionIO() {}, drive::getSpeeds);
-                    // rightVision = new Vision("Right Vision", new VisionIO() {},
-                    // drive::getSpeeds);
+                    frontVision = new Vision("Bottom Vision", new VisionIO() {
+                    },
+                            drive::getSpeeds);
+                    backVision = new Vision("Back Vision", new VisionIO() {
+                    }, drive::getSpeeds);
 
-                    throw new IllegalStateException("SIMBOT is not currently completely implemented on this robot");
+                    camera = new Photon(new PhotonIO() {
+                    });
+
+                    intake = new Intake(new IntakeIOSim());
+
+                    pivot = new Pivot(new PivotIOSim());
+                    // throw new IllegalStateException("SIMBOT is not currently completely
+                    // implemented on this robot");
                 }
                 default -> {
                     throw new IllegalStateException("Robot type not selected");
@@ -98,12 +130,18 @@ public final class Subsystems {
                     new ModuleIO() {
                     });
 
-            bottomVision = new Vision("Bottom Vision", new VisionIO() {
+            frontVision = new Vision("Bottom Vision", new VisionIO() {
             }, drive::getSpeeds);
             backVision = new Vision("Back Vision", new VisionIO() {
             }, drive::getSpeeds);
-            topVision = new Vision("Top Vision", new VisionIO() {
-            }, drive::getSpeeds);
+            camera = new Photon(new PhotonIO() {
+            });
+
+            intake = new Intake(new IntakeIO() {
+            });
+
+            pivot = new Pivot(new PivotIO() {
+            });
         }
     }
 }

@@ -14,11 +14,6 @@ public interface IntakeIO {
         public double centerMotorCurrent = 0;
         public double centerMotorVel = 0;
         public double centerMotorAccel = 0;
-        
-        public double pivotMotorVoltage = 0;
-        public double pivotMotorCurrent = 0;
-        public double pivotMotorVel = 0;
-        public double pivotMotorAccel = 0;
 
         public boolean gamePieceSensor = false;
     }
@@ -28,18 +23,12 @@ public interface IntakeIO {
     default void runIntakeMotor(double velocity) {}
 
     default void runCenterMotor(double velocity) {}
-    
-    default void runPivotMotor(double velocity) {}
 
     default void runIntakeVoltage(double volts) {}
 
     default void runCenterVoltage(double volts) {}
-    
-    default void runPivotVoltage(double volts) {}
 
     default void stopIntakeMotor() {}
 
     default void stopCenterMotor() {}
-    
-    default void stopPivotMotor() {}
 }

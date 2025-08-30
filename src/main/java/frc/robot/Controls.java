@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import static frc.robot.Constants.driver;
 
 public class Controls {
-    private static final boolean rightStickDrive = false;
+    private static final boolean rightStickDrive = true;
 
     // Drivetrain
     public static DoubleSupplier driveX = () -> rightStickDrive ? -driver.getRightY() : -driver.getLeftY();

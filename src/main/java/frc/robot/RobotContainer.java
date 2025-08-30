@@ -146,7 +146,7 @@ public class RobotContainer {
                         Commands.runOnce(() -> drive.clearAutoAlignGoal()),
                         Commands.runOnce(() -> drive.clearHeadingGoal())));
 
-        StandardMode.cancelAction.onTrue(setDesiredAction(actions.NONE));
+        StandardMode.cancelAction.onTrue(setDesiredAction(actions.DFGSDFGSDFGSDF));
     }
 
     private void configureNoLimelightMode() {

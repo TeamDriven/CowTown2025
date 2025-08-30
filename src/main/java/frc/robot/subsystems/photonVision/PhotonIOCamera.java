@@ -7,14 +7,12 @@ import edu.wpi.first.math.util.Units;
 
 public class PhotonIOCamera implements PhotonIO {
     public final PhotonCamera camera;
-    public final double cameraHeight;
     public boolean targetVisible;
     public double targetYaw;
     public double targetRange;
 
-    public PhotonIOCamera(String name, double cameraHeight) {
+    public PhotonIOCamera(String name) {
         this.camera = new PhotonCamera(name);
-        this.cameraHeight = cameraHeight;
         this.targetVisible = false;
         this.targetYaw = 0.0;
         this.targetRange = 0.0;
