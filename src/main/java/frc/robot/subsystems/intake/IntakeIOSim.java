@@ -6,8 +6,8 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import frc.robot.Constants;
-import static frc.robot.subsystems.pivot.PivotConstants.centerGearRatio;
-import static frc.robot.subsystems.pivot.PivotConstants.intakeGearRatio;
+import static frc.robot.subsystems.intake.IntakeConstants.centerGearRatio;
+import static frc.robot.subsystems.intake.IntakeConstants.intakeGearRatio;
 
 public class IntakeIOSim implements IntakeIO {
     private static final DCMotor intakeMotorModel = DCMotor.getKrakenX60Foc(1);
@@ -18,7 +18,7 @@ public class IntakeIOSim implements IntakeIO {
             intakeMotorModel);
 
     private final DCMotorSim centerMotorSim = new DCMotorSim(
-            LinearSystemId.createDCMotorSystem(centerMotorModel, 0.025, intakeGearRatio),
+            LinearSystemId.createDCMotorSystem(centerMotorModel, 0.025, centerGearRatio),
             centerMotorModel);
 
     private PIDController pidIntake = new PIDController(6.5, 0, 0.02);

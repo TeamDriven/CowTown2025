@@ -1,11 +1,9 @@
 package frc.robot.subsystems.intake;
 
-import java.util.function.DoubleSupplier;
+import java.util.function.BooleanSupplier;
 
 import org.littletonrobotics.junction.Logger;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotState;
 
@@ -77,14 +75,6 @@ public class Intake extends SubsystemBase {
         this.intakeValue = volts;
     }
 
-    public Command runIntakeVelocityCommand(double vel) {
-        return Commands.startEnd(() -> runIntakeVelocity(vel), () -> runIntakeVelocity(0), this);
-    }
-
-    public Command runIntakeVelocityCommand(DoubleSupplier vel) {
-        return Commands.startEnd(() -> runIntakeVelocity(vel.getAsDouble()), () -> runIntakeVelocity(0), this);
-    }
-
     public void runCenterVelocity(double velocity) {
         currentCenterMode = mode.VELOCITY;
         this.centerValue = velocity;
@@ -95,12 +85,12 @@ public class Intake extends SubsystemBase {
         this.centerValue = volts;
     }
 
-    public Command runCenterVelocityCommand(double vel) {
-        return Commands.startEnd(() -> runCenterVelocity(vel), () -> runCenterVelocity(0), this);
+    public BooleanSupplier hasCoral() {
+        return () -> inputs.gamePieceSensor;
     }
-
-    public Command runCenterVelocityCommand(DoubleSupplier vel) {
-        return Commands.startEnd(() -> runCenterVelocity(vel.getAsDouble()), () -> runCenterVelocity(0), this);
+    
+    public BooleanSupplier hasNoCoral() {
+        return () -> !inputs.gamePieceSensor;
     }
 
 }

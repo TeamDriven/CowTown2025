@@ -9,6 +9,7 @@ package frc.robot;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.BooleanSupplier;
 
 import org.littletonrobotics.junction.AutoLogOutput;
 import org.littletonrobotics.junction.Logger;
@@ -197,9 +198,30 @@ public class RobotState {
     hasCoral = sensorTripped;
   }
 
+  private  double actionStep = 0;
+
+  public void setStep(double step) {
+    actionStep = step;
+  }
+
+  public BooleanSupplier isOnStep(double step) {
+    return () -> actionStep == step;
+  }
+
   public static enum actions {
     NONE,
-    DFGSDFGSDFGSDF
+    PICK_UP_CORAL,
+    PUT_DOWN_CORAL,
+    L4,
+    L3,
+    L2,
+    L1,
+    BARGE,
+    ALGAE_GROUND,
+    ALGAE_LOW,
+    ALGAE_HIGH,
+    PROCESSOR,
+    DETECT_GAME_PIECE
   }
 
   private actions desiredAction = actions.NONE;
@@ -247,5 +269,28 @@ public class RobotState {
 
   public boolean isManualMode() {
     return currentMode == controlMode.MANUAL;
+  }
+
+  private static enum gamePieceMode {
+    CORAL,
+    ALGAE
+  }
+
+  private static gamePieceMode currentGameMode = gamePieceMode.CORAL;
+
+  public void setAlgaeMode() {
+    currentGameMode = gamePieceMode.ALGAE;
+  }
+
+  public void setCoralMode() {
+    currentGameMode = gamePieceMode.CORAL;
+  }
+
+  public boolean isCoralMode() {
+    return currentGameMode == gamePieceMode.CORAL;
+  }
+
+  public boolean isAlgaeMode() {
+    return currentGameMode == gamePieceMode.ALGAE;
   }
 }

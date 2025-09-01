@@ -26,6 +26,11 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import static frc.robot.Constants.driver;
 import frc.robot.Controls.StandardMode;
+import static frc.robot.Controls.StandardMode.l1;
+import static frc.robot.Controls.StandardMode.pickUpCoral;
+import static frc.robot.Controls.StandardMode.putDownCoral;
+import static frc.robot.Controls.algaeMode;
+import static frc.robot.Controls.coralMode;
 import static frc.robot.Controls.driveOmega;
 import static frc.robot.Controls.driveX;
 import static frc.robot.Controls.driveY;
@@ -34,6 +39,8 @@ import static frc.robot.Controls.noLimelightMode;
 import static frc.robot.Controls.resetPose;
 import frc.robot.RobotState.actions;
 import static frc.robot.Subsystems.drive;
+import frc.robot.commands.automation.PickUpCoral;
+import frc.robot.commands.automation.PutDownCoral;
 import frc.robot.util.Alert;
 import frc.robot.util.Alert.AlertType;
 import frc.robot.util.AllianceFlipUtil;
@@ -146,7 +153,26 @@ public class RobotContainer {
                         Commands.runOnce(() -> drive.clearAutoAlignGoal()),
                         Commands.runOnce(() -> drive.clearHeadingGoal())));
 
-        StandardMode.cancelAction.onTrue(setDesiredAction(actions.DFGSDFGSDFGSDF));
+        StandardMode.cancelActionLeft.onTrue(setDesiredAction(actions.NONE));
+        StandardMode.cancelActionRight.onTrue(setDesiredAction(actions.NONE));
+
+        coralMode.onTrue(Commands.runOnce(() -> RobotState.getInstance().setCoralMode()));
+        algaeMode.onTrue(Commands.runOnce(() -> RobotState.getInstance().setAlgaeMode()));
+
+        pickUpCoral.onTrue(setDesiredAction(actions.PICK_UP_CORAL));
+        putDownCoral.onTrue(setDesiredAction(actions.PUT_DOWN_CORAL));
+
+        l1.onTrue(setDesiredAction(actions.L1));
+
+        new Trigger(isDesiredAction(actions.PICK_UP_CORAL))
+                .and(RobotState.getInstance()::isStandardMode)
+                .and(RobotState.getInstance()::isCoralMode)
+                .onTrue(new PickUpCoral());
+
+        new Trigger(isDesiredAction(actions.PUT_DOWN_CORAL))
+                .and(RobotState.getInstance()::isStandardMode)
+                .and(RobotState.getInstance()::isCoralMode)
+                .onTrue(new PutDownCoral());
     }
 
     private void configureNoLimelightMode() {

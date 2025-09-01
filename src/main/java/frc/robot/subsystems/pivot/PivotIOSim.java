@@ -6,13 +6,13 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import frc.robot.Constants;
-import static frc.robot.subsystems.pivot.PivotConstants.intakeGearRatio;
+import static frc.robot.subsystems.pivot.PivotConstants.pivotGearRatio;
 
 public class PivotIOSim implements PivotIO {
     private static final DCMotor motorModel = DCMotor.getKrakenX60Foc(1);
 
     private final DCMotorSim motorSim = new DCMotorSim(
-            LinearSystemId.createDCMotorSystem(motorModel, 0.025, intakeGearRatio),
+            LinearSystemId.createDCMotorSystem(motorModel, 0.025, pivotGearRatio),
             motorModel);
 
     private PIDController pid = new PIDController(6.5, 0, 0.02);
@@ -30,11 +30,11 @@ public class PivotIOSim implements PivotIO {
 
         motorSim.update(Constants.loopPeriodSecs);
 
-        inputs.motorPos = motorSim.getAngularPositionRotations() * intakeGearRatio;
+        inputs.motorPos = motorSim.getAngularPositionRotations() * pivotGearRatio;
         inputs.motorVoltage = appliedVolts;
         inputs.motorCurrent = Math.abs(motorSim.getCurrentDrawAmps());
-        inputs.motorVel = motorSim.getAngularVelocityRPM() / intakeGearRatio;
-        inputs.motorAccel = motorSim.getAngularAccelerationRadPerSecSq() / intakeGearRatio;
+        inputs.motorVel = motorSim.getAngularVelocityRPM() / pivotGearRatio;
+        inputs.motorAccel = motorSim.getAngularAccelerationRadPerSecSq() / pivotGearRatio;
 
         motorSim.setInputVoltage(MathUtil.clamp(appliedVolts, -12.0, 12.0));
 

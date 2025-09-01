@@ -48,6 +48,11 @@ public class Pivot extends SubsystemBase{
     }
     
     
+    public void setPos(double pos) {
+        currentMode = mode.MOTIONMAGIC;
+        this.value = pos;
+    }
+
     public void runPivotVelocity(double velocity) {
         currentMode = mode.VELOCITY;
         this.value = velocity;
